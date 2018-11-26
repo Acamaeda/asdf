@@ -75,8 +75,12 @@ word new_seg(word size, Memory mem)
 
 void free_seg(word seg, Memory mem)
 {
-        assert(valid_addr(seg, 0, mem));
-        Segment s = (Segment) UArray_at(mem->segs, seg);
+        if (seg >= mem->next_id)
+                assert(0);
+        Segment s = (Segment)UArray_at(mem->segs, seg);
+        if (0 >= s->size)
+                assert(0);
+
         free(s->array);
         s->size = 0;
         word *segp = malloc(sizeof(word));
@@ -87,25 +91,33 @@ void free_seg(word seg, Memory mem)
 
 word read_memory(word seg, word addr, Memory mem)
 {
-        assert(valid_addr(seg, addr, mem));
-        Segment s = (Segment) UArray_at(mem->segs, seg);
+        if (seg >= mem->next_id)
+                assert(0);
+        Segment s = (Segment)UArray_at(mem->segs, seg);
+        if (addr >= s->size)
+                assert(0);
+
         return (s->array)[addr];
 }
 void write_memory(word seg, word addr, word value, Memory mem)
 {
-        assert(valid_addr(seg, addr, mem));
-        Segment s = (Segment) UArray_at(mem->segs, seg);
+        if (seg >= mem->next_id)
+                assert(0);
+        Segment s = (Segment)UArray_at(mem->segs, seg);
+        if (addr >= s->size)
+                assert(0);
         (s->array)[addr] = value;
 }
 
 void copy_seg(word src, word dest, Memory mem)
 {
-        assert(valid_addr(src, 0, mem));
-        /* If dest is not already used it breaks our valid tests */
-        assert(valid_addr(dest, 0, mem));
+        if (src >= mem->next_id)
+                assert(0);
+        Segment s1 = (Segment)UArray_at(mem->segs, src);
+        if (dest >= mem->next_id)
+                assert(0);
+        Segment s2 = (Segment)UArray_at(mem->segs, dest);
 
-        Segment s1 = (Segment) UArray_at(mem->segs, src);
-        Segment s2 = (Segment) UArray_at(mem->segs, dest);
         free(s2->array);
 
         s2->size = s1->size;
@@ -121,9 +133,11 @@ void free_memory(Memory *memm)
         Memory mem = *memm;
         UArray_T segs = mem->segs;
         for (int i = 0; i < UArray_length(segs); i ++){
-                Segment seg = (Segment) UArray_at(segs, i);
-                if(valid_addr(i, 0, mem) == 1)
-                        free(seg->array);
+                if ((word)i < mem->next_id){
+                        Segment s = (Segment)UArray_at(mem->segs, i);
+                        if (0 < s->size)
+                                free(s->array);
+                }
         }
         for (int i = 0; i < Seq_length(mem->free_ids); i++)
                 free((word*) Seq_get(mem->free_ids, i));
