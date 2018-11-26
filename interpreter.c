@@ -6,9 +6,16 @@
  *
  */
 
-#include "bitpack.h"
 #include "interpreter.h"
 #include <stdio.h>
+
+/* Declared inline, we never call a shift of 64 so we don't need to check */
+inline uint64_t Bitpack_getu(uint64_t word, unsigned width, unsigned lsb)
+{
+        unsigned hi = lsb + width; /* one beyond the most significant bit */
+        /* different type of right shift */
+        return (word << (64 - hi)) >> (64 - width);
+}
 
 void interpret(word instr, UM um)
 {
