@@ -1,0 +1,15 @@
+halt.um
+add.um
+nandtest.um
+print-six.um
+in2out.um
+jumptest.um
+ifprint.um
+6map.um
+above255.um
+largeval.um
+basic-in-out.um
+manytimes.um
+longmap.um
+segcopytest.um
+iftest.um
