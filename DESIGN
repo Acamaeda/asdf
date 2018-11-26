@@ -1,0 +1,112 @@
+﻿Design Document
+Harley White & Rhys Gilkenson
+Homework 4: UM
+
+
+1. What are the major components of your program, and what are their interfaces?
+Components include functions as well as abstract data types. An interface includes contracts as well as function prototypes.
+
+
+* UM struct containing registers, memory, and program counter, passed between all modules but with secrets on the nature of the registers and memory kept between them.
+   * Defined in Execute module to maybe attempt to keep regs a secret
+
+
+* Memory module, handles the segmented memory. Memory struct containing:
+   * A Hanson array to represent the segments of memory. This array is dynamic to allow segments to be added freely.
+      * Within this data structure, arrays of different sizes exist to represent the actual data itself and the different size of each segment.
+   * A Hanson sequence used as a queue to keep track of unmapped segment ids.
+   * uint32_t tracking the lowest segment that has never been used.
+   * A new segment will use the value of the oldest member of the sequence, or the lowest unused segment if the sequence is empty.
+
+
+#typedef struct Memory *Memory
+
+
+/* Returns 1 if there is a segment for a given id, or 0 otherwise */
+uint32_t valid_seg(uint32_t seg);
+
+
+uint32_t read_memory(uint32_t seg, uint32_t addr, Memory mem);
+void write_memory(uint32_t seg, uint32_t addr, uint32_t value, Memory mem);
+
+
+void copy_seg(uint32_t src, uint32_t dest, Memory mem);
+
+
+/* Adds a new segment at an available segment id, and returns its id */
+uint32_t new_seg(uint32_t size, Memory mem);
+/* Frees a segment from memory, opening its id for future use. */
+void free_seg(uint32_t seg, Memory mem);
+
+
+Memory new_memory();
+void free_memory(Memory *mem);
+
+
+* Execute module. Performs operations. It is the only module that interacts with the registers.
+   * Array of size 16 which will hold function pointers which correspond to the opcode instructions. Each function takes in 3 registers and the UM struct. The functions for 13-15 give an error. (Interpret module will never call 13).
+   * Special function pointer for load value.
+   * Use of an array to represent the 8 registers that each hold 32 bits
+   * “Halt” frees all memory then exits with code 0.
+
+
+        #typedef struct UM* {
+                Memory mem;
+                uint32_t regs[8];
+        } UM;
+
+
+        void execute_operation(uint32_t op_id, uint32_t a, uint32_t b, uint32_t c, UM um);
+
+
+        const int SPECIAL_ID = 13;
+        /* Call this instead of funcs[SPECIAL_ID] */
+        void (*special_func)(uint32_t reg, uint32_t val, UM um);
+
+
+* Interpret module, takes an instruction and calls the appropriate execute function. It is the only module that looks at the instructions.
+   * If opcode is SPECIAL_ID (13), does different unpacking then calls the load value function.
+   * Otherwise, does normal unpacking, then calls the function with the given opcode in the Execute function array.
+        
+void interpret(uint32_t instruction, UM um);
+
+
+1. How do the components in your program interact? That is, what is the architecture of your program?
+
+
+* Main module initializes things, reads in the program file, and stores it using the memory module. It then runs a loop, reading the instruction at the program counter with the memory module and passing it into the interpret module.
+* Memory module is called by other modules.
+* Interpret module breaks down the instruction and then calls a function from the execute module.
+* Execute module executes the instruction. Many instructions involve calling the memory module.
+
+
+1. What test cases will you use to convince yourself that your program works?
+* Unit tests:
+   * Insert print statements into each execute function (other than print) for testing purposes. Prints the command, inputs, and result.
+   * Breakpoints?
+   * Load program prints the entire segment 0 at the end.
+* Look at failure modes.
+* Look at cases that are one away from failure modes.
+* Tests for unchecked and checked runtime errors
+* Tests that result in halts
+* Tests for segmented memory.
+   * Mapping and unmapping the same segments
+   * Going back and forth between segments, etc.
+* Testing with given test programs.
+* Lots of testing for input.
+   * Unusual characters, outside of ASCII range 33-126
+   * Multiple characters at once
+   * Long inputs
+   * Inputs with many different instructions
+* Tests for output.
+   * Characters outside of the range 33-126
+* Tests for arithmetic operations.
+   * Adding numbers that are too large
+   * Dividing by zero
+   * Multiply when result is too big
+
+
+Invariants
+* All segments with ids in the sequence or greater than the highest ever used are unmapped.
+* All values in a segment are uint32_t’s.
+* The code being executed is always in segment 0.

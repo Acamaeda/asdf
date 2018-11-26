@@ -1,0 +1,48 @@
+WARNING: Combobler will probably do really weird things if you mess up, there 
+is almost no error checking. Commands must be in lowercase.
+It is also probably spelled wrong.
+
+To compile:
+./compile input output
+
+
+if ra rb rc: sets ra to rb if rc != 0
+	"move" also works. To use as a move function, use a register you know
+	is "true" for rc.
+
+loads ra rb rc: sets ra to the value in memory at (rb, rc)
+
+store ra rb rc: sets the memory at (ra, rb) to rc
+
+add ra rb rc: sets ra to rb + rc
+	To subtract, NOT rc and add 1 to that
+mult ra rb rc: sets ra to rb * rc
+
+divide ra rb rc: sets ra to rb / rc
+
+nand ra rb rc: sets ra to rb NAND rc
+	These are not actual commands, but to do other logical operators:
+		NOT is (nand ra rb rb)
+		AND is (NOT(nand ra rb rc))
+		OR is (nand (ra (NOT rb) (NOT rc)
+		I'm tired
+
+halt: Ends the program
+
+map rb rc: Creates a memory segment and stores its address in rb.
+	The size of the segment is rc 32-bit words.
+
+unmap rc: Removes the segment with address rc and allows that value to be reused
+
+out rc: Prints a char with the value of the bottom 8 bits of rc.
+
+in rc: Reads in a single char and sets rc to that value.
+
+jump rb rc: Overwrites the current segment at 0 (where the code lives) with
+	a copy of the segment at rb (if rb = 0, skips this). Then sets the
+	program counter to rc.
+
+loadv ra val: Sets ra to $val
+
+Typing // followed by a space makes the compiler ignore the rest of the line,
+	for comments.

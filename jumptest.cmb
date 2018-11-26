@@ -1,0 +1,5 @@
+loadv 1 2
+jump 6 1
+loadv 0 484
+halt
+

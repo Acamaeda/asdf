@@ -1,0 +1,9 @@
+loadv 0 229376
+// This is a test
+loadv 1 8192
+mult 0 1 0
+loadv 3 1
+map 4 3
+loadv 5 0
+store 4 5 0
+jump 4 5

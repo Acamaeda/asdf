@@ -1,0 +1,4 @@
+#! /bin/sh
+
+testFiles=$(find $2 -name "*.um")
+echo $testFiles

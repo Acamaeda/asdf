@@ -1,0 +1,9 @@
+loadv 0 88
+loadv 1 80
+loads 0 0 0
+if 1 0 2
+out 1
+loadv 2 4
+if 1 0 2
+out 1
+halt

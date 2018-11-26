@@ -1,0 +1,86 @@
+------------README------------
+ Harley White & Rhys Gilkenson
+     The Universal Machine
+------------------------------
+
+We have received help from various TAs on this assignment for
+clarification questions and some debugging.
+
+Everything in the UM has been correctly implemented.
+
+Our final implementation stuck with our planned designed.
+
+Main module initializes things, reads in the program file, and stores 
+it using the memory module. It then runs a loop, reading the instruction 
+at the program counter with the memory module and passing it into the 
+interpret module.
+
+Memory module is called by other modules.
+
+Interpret module breaks down the instruction and then calls a function 
+from the execute module.
+
+Execute module executes the instruction. Many instructions involve calling 
+the memory module.
+
+In order to run 50 million instructions, our UM would take approximately
+17.5 seconds to run. We calculated this by using /usr/bin/time 
+our a test file that has 200,000 instructions and then multiplying this
+by 250 to get roughly 50 million instructions.
+
+We also created a basic compiler to create .um files from semi-human-readable
+text files.
+
+Tests:
+
+halt          // halts the um -- this tests our halt implementation
+add           // adds empty register 1 to empty register 2 -- store in 
+              // register 0 -- this tests our add implementation
+nandtest      // loads the values 0F0F and F0F0 into two different
+              // registers -- nands 0F0F and F0F0 together to get 
+              // all Fs -- this tests our nand implementation
+print-six     // loads 6 into a register and then and prints that
+              // register -- this tests output and loadv, multiple
+              // functions at once
+in2out        // inputs a number into a register -- adds its value to 
+              // itself and prints the result -- this tests basic
+              // input and output
+jumptest      // jumps over the next line of code to the line after -- 
+              // there are three prints but one of them is jumped over --
+              // this tests a jump feature that can be used with the UM
+              // with the load program implementation
+ifprint       // stores 3 in register 0 and 4 in register 1 -- if 
+              // register 2 has a 0 zero, then nothing happens --
+              // else it will move register 1 into register 0 and print
+              // the value in register 0 -- this tests the use of 
+              // conditionals in with our UM
+newseg-valout // stores value for character 6 into register 3 -- makes
+              // a new segment of size 1 and stores register 3 into 
+              // that new segment -- retrieves value from that segment
+              // and store into register 4 and print contents of
+              // register 4 -- this tests our mapping implementation
+6map          // creates 2 new segments of size 1 -- stores 7 in both
+              // and then loads those two values into two registers 
+              // and prints them -- this tests multiple mappings
+above255      // loads 224, 225, and 226 into register 0 and outputs
+              // the values stored in them -- um does not fail because
+              // values above 255 loop around themselves in our
+              // implementation -- this tests loading values outside of
+              // the ascii range that can be handled by the UM
+largeval      // stores a large value into a register -- this tests 
+              // mapping segments that are large -- 21474874 words
+basic-in-out  // inputs into register 0 and outputs register 0 -- 
+              // tested with all letters and numbers 0 - 9 to ensure
+              // correct result -- tests basic input and output
+manytimes     // runs 20000 instructs to print f each time -- tests
+              // long lists of instructions
+longmap       // maps a new segment many times over and executes over
+              // 200000 instruments -- tests the resources of the UM
+              // and the segmented memory and if it can handle many
+              // mappings
+segcopytest   // Constructs the value for the "halt" command, stores it in a
+              // new memory segment, then loads that segment as the program
+iftest        // Basic conditional jump test
+
+This project took us 2 - 3 hours to anaylize the assignment,
+4 hours to prepare the design and 6 hours solving the problem.
