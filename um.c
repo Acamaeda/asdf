@@ -63,11 +63,6 @@ void read_program(FILE* fp, UM um)
                 }
 
                 write_memory(0, i, instr, um->mem);
-                instr = read_memory(0, i, um->mem);
-                //  if (i < 5)
-                        //       fprintf(stderr, "\n%d %x\n", i, instr);
-
-                
         }
 }
 

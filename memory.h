@@ -12,6 +12,7 @@
 #define MEMORY_INCLUDED
 
 #include <stdint.h>
+#include <uarray.h>
 
 typedef struct Memory *Memory;
 typedef  uint32_t word;
@@ -21,6 +22,10 @@ word valid_addr(word seg, word addr, Memory mem);
 
 word read_memory(word seg, word addr, Memory mem);
 void write_memory(word seg, word addr, word value, Memory mem);
+
+/* Does not do the safety checks, be careful with this! */
+word read_memory_fast(word seg, word addr, Memory mem);
+
 
 void copy_seg(word src, word dest, Memory mem);
 
