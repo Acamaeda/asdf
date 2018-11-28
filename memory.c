@@ -11,16 +11,7 @@
 #include <seq.h>
 #include <assert.h>
 #include <stdio.h>
-struct Memory{
-        UArray_T segs;
-        Seq_T free_ids;
-        word next_id;
-};
 
-typedef struct Segment{
-        word size;
-        word *array;
-} *Segment;
 
 Memory new_memory()
 {
@@ -98,13 +89,6 @@ word read_memory(word seg, word addr, Memory mem)
 
         return (s->array)[addr];
 }
-
-word read_memory_fast(word seg, word addr, Memory mem)
-{
-        Segment s = (Segment)UArray_at(mem->segs, seg);
-        return (s->array)[addr];
-}
-
 
 void write_memory(word seg, word addr, word value, Memory mem)
 {

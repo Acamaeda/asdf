@@ -64,18 +64,23 @@ void read_program(FILE* fp, UM um)
 
                 write_memory(0, i, instr, um->mem);
         }
+        um->code = UArray_at(um->mem->segs, 0);
+}
+
+word read_code(word addr, UArray_T segs)
+{
+        Segment code = UArray_at(segs, 0);
+        assert (addr < code->size);
+        return (code->array)[addr];
 }
 
 void run_prog(UM um)
 {
-        
-        int cycles = 0;
+        UArray_T segs = um->mem->segs;
 /* Main loop, ends with halt command */
         while (1) {
-                word instr = read_memory(0, um->program_counter, um->mem);
-             // if (instr != 0 || cycles < 5)
-                    // fprintf(stderr, "\n%d %x\n", um->program_counter, instr);
-                cycles++;
+                word instr = read_code(um->program_counter, segs);
+
                 um->program_counter++;
                 interpret(instr, um);
         }

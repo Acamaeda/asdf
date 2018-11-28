@@ -103,8 +103,10 @@ void input_op(word a, word b, word c, UM um)
 void copy_seg_op(word a, word b, word c, UM um)
 {
         (void) a;
-        if (um->regs[b] != 0)
+        if (um->regs[b] != 0) {
                 copy_seg(um->regs[b], 0, um->mem);
+                um->code = UArray_at(um->mem->segs, 0);
+        }
         um->program_counter = um->regs[c];
 
 }

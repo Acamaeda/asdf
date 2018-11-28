@@ -13,9 +13,23 @@
 
 #include <stdint.h>
 #include <uarray.h>
+#include <seq.h>
+
+typedef  uint32_t word;
+
+/* Not secret so current seg can be stored */
+struct Memory{
+        UArray_T segs;
+        Seq_T free_ids;
+        word next_id;
+};
+
+typedef struct Segment{
+        word size;
+        word *array;
+} *Segment;
 
 typedef struct Memory *Memory;
-typedef  uint32_t word;
 
 /* Returns 1 if there is a segment for a given id, or 0 otherwise */
 word valid_addr(word seg, word addr, Memory mem);
@@ -23,8 +37,8 @@ word valid_addr(word seg, word addr, Memory mem);
 word read_memory(word seg, word addr, Memory mem);
 void write_memory(word seg, word addr, word value, Memory mem);
 
-/* Does not do the safety checks, be careful with this! */
-word read_memory_fast(word seg, word addr, Memory mem);
+/* Does not do one checks, be careful with this! */
+word read_prog_memory(word seg, word addr, Memory mem);
 
 
 void copy_seg(word src, word dest, Memory mem);
