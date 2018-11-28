@@ -67,7 +67,7 @@ void read_program(FILE* fp, UM um)
         um->code = UArray_at(um->mem->segs, 0);
 }
 
-word read_code(word addr, UArray_T segs)
+inline word read_code(word addr, UArray_T segs)
 {
         Segment code = UArray_at(segs, 0);
         assert (addr < code->size);
