@@ -11,7 +11,7 @@
 #define UM_STRUCT_INCLUDED
 
 #include <stdint.h>
-#include "memory.h"
+#include "memory.c"
 
 typedef struct UM{
         Memory mem;

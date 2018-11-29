@@ -32,22 +32,18 @@ typedef struct Segment{
 typedef struct Memory *Memory;
 
 /* Returns 1 if there is a segment for a given id, or 0 otherwise */
-word valid_addr(word seg, word addr, Memory mem);
+inline word valid_addr(word seg, word addr, Memory mem);
 
-word read_memory(word seg, word addr, Memory mem);
-void write_memory(word seg, word addr, word value, Memory mem);
+inline word read_memory(word seg, word addr, Memory mem);
+inline void write_memory(word seg, word addr, word value, Memory mem);
 
-/* Does not do one checks, be careful with this! */
-word read_prog_memory(word seg, word addr, Memory mem);
-
-
-void copy_seg(word src, word dest, Memory mem);
+inline void copy_seg(word src, word dest, Memory mem);
 
 /* Adds a new segment at an available segment id, and returns its id */
-word new_seg(word size, Memory mem);
+inline word new_seg(word size, Memory mem);
 /* Frees a segment from memory, opening its id for future use. */
-void free_seg(word seg, Memory mem);
+inline void free_seg(word seg, Memory mem);
 
-Memory new_memory();
-void free_memory(Memory *mem);
+inline Memory new_memory();
+inline void free_memory(Memory *mem);
 #endif

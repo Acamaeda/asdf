@@ -11,7 +11,7 @@
 #ifndef EXECUTE_INCLUDED
 #define EXECUTE_INCLUDED
 
-#include "um_struct.h"
+#include "um_struct.c"
 
 inline void execute_operation(word op_id, word a, word b, word c, UM um);
 

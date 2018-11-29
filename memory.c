@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 
-Memory new_memory()
+inline Memory new_memory()
 {
         Memory m = malloc(sizeof(struct Memory));
         assert(m != NULL);
@@ -24,10 +24,8 @@ Memory new_memory()
         return m;
 }
 
-word valid_addr(word seg, word addr, Memory mem)
+inline word valid_addr(word seg, word addr, Memory mem)
 {
-        //fprintf(stderr, "%u %u \n", seg, addr);
-
         if (seg >= mem->next_id)
                 return 0;
         
@@ -37,7 +35,7 @@ word valid_addr(word seg, word addr, Memory mem)
         return 1;
 }
 
-word new_seg(word size, Memory mem)
+inline word new_seg(word size, Memory mem)
 {
         assert(size != 0);
         Segment s;
@@ -63,7 +61,7 @@ word new_seg(word size, Memory mem)
         return id;
 }
 
-void free_seg(word seg, Memory mem)
+inline void free_seg(word seg, Memory mem)
 {
         if (seg >= mem->next_id)
                 assert(0);
@@ -79,7 +77,7 @@ void free_seg(word seg, Memory mem)
 }
 
 
-word read_memory(word seg, word addr, Memory mem)
+inline word read_memory(word seg, word addr, Memory mem)
 {
         if (seg >= mem->next_id)
                 assert(0);
@@ -90,7 +88,7 @@ word read_memory(word seg, word addr, Memory mem)
         return (s->array)[addr];
 }
 
-void write_memory(word seg, word addr, word value, Memory mem)
+inline void write_memory(word seg, word addr, word value, Memory mem)
 {
         if (seg >= mem->next_id)
                 assert(0);
@@ -100,7 +98,7 @@ void write_memory(word seg, word addr, word value, Memory mem)
         (s->array)[addr] = value;
 }
 
-void copy_seg(word src, word dest, Memory mem)
+inline void copy_seg(word src, word dest, Memory mem)
 {
         if (src >= mem->next_id)
                 assert(0);
@@ -119,7 +117,7 @@ void copy_seg(word src, word dest, Memory mem)
 }
 
 
-void free_memory(Memory *memm)
+inline void free_memory(Memory *memm)
 {
         Memory mem = *memm;
         UArray_T segs = mem->segs;
