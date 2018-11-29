@@ -6,7 +6,7 @@
  * program, and loops through the code.
  */
 
-#include "interpreter.h"
+#include "interpreter.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <except.h>

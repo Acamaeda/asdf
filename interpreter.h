@@ -10,9 +10,9 @@
 #ifndef INTERPRETER_INCLUDED
 #define INTERPRETER_INCLUDED
 
-#include "execute.h"
+#include "execute.c"
 
 
-void interpret(word instr, UM um);
+inline void interpret(word instr, UM um);
 
 #endif

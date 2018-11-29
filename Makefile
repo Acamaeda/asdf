@@ -62,7 +62,7 @@ all: memtest um
 memtest: memtests.o memory.o
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
-um: memory.o um_struct.o um.o interpreter.o bitpack.o execute.o
+um: memory.o um_struct.o um.o 
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 clean:

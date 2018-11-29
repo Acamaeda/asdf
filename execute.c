@@ -117,14 +117,14 @@ const normal_func funcs[13] = {move_op, seg_load_op, seg_store_op, add_op,
                                mult_op, divide_op, nand_op, halt_op, map_seg_op,
                                unmap_seg_op, output_op, input_op, copy_seg_op};
 
-void execute_operation(word op_id, word a, word b, word c, UM um)
+inline void execute_operation(word op_id, word a, word b, word c, UM um)
 {
         assert (op_id < NORMAL_OPS);
         funcs[op_id](a, b, c, um);
 }
 
 /* Load value */
-void special_func(word reg, word val, UM um)
+inline void special_func(word reg, word val, UM um)
 {
         um->regs[reg] = val;
 }

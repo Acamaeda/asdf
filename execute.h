@@ -13,10 +13,10 @@
 
 #include "um_struct.h"
 
-void execute_operation(word op_id, word a, word b, word c, UM um);
+inline void execute_operation(word op_id, word a, word b, word c, UM um);
 
 enum {SPECIAL_ID = 13};
 /* Call this instead of funcs[SPECIAL_ID] */
-void special_func(word reg, word val, UM um);
+inline void special_func(word reg, word val, UM um);
 
 #endif

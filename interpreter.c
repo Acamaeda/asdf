@@ -17,7 +17,7 @@ inline uint64_t Bitpack_getu(uint64_t word, unsigned width, unsigned lsb)
         return (word << (64 - hi)) >> (64 - width);
 }
 
-void interpret(word instr, UM um)
+inline void interpret(word instr, UM um)
 {
         word op = (word)Bitpack_getu((uint64_t)instr, 4, 28);
         if (op == SPECIAL_ID){
