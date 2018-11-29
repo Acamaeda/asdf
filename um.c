@@ -67,19 +67,19 @@ void read_program(FILE* fp, UM um)
         um->code = UArray_at(um->mem->segs, 0);
 }
 
-inline word read_code(word addr, UArray_T segs)
+inline word read_code(word addr, Segment code)
 {
-        Segment code = UArray_at(segs, 0);
         assert (addr < code->size);
         return (code->array)[addr];
+
 }
 
 void run_prog(UM um)
 {
-        UArray_T segs = um->mem->segs;
 /* Main loop, ends with halt command */
         while (1) {
-                word instr = read_code(um->program_counter, segs);
+
+                word instr = read_code(um->program_counter, um->code);
 
                 um->program_counter++;
                 interpret(instr, um);

@@ -40,6 +40,7 @@ void seg_load_op(word a, word b, word c, UM um)
 void seg_store_op(word a, word b, word c, UM um)
 {
         write_memory(um->regs[a], um->regs[b], um->regs[c], um->mem);
+       
 }
 
 void add_op(word a, word b, word c, UM um)
@@ -76,6 +77,7 @@ void map_seg_op(word a, word b, word c, UM um)
 {
         (void) a;
         um->regs[b] = new_seg(um->regs[c], um->mem);
+        um->code = UArray_at(um->mem->segs, 0);
 }
 
 void unmap_seg_op(word a, word b, word c, UM um)
@@ -105,7 +107,7 @@ void copy_seg_op(word a, word b, word c, UM um)
         (void) a;
         if (um->regs[b] != 0) {
                 copy_seg(um->regs[b], 0, um->mem);
-                um->code = UArray_at(um->mem->segs, 0);
+                //um->code = UArray_at(um->mem->segs, 0);
         }
         um->program_counter = um->regs[c];
 
