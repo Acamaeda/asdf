@@ -69,7 +69,8 @@ void read_program(FILE* fp, UM um)
 
 inline word read_code(word addr, Segment code)
 {
-        assert (addr < code->size);
+        if (addr >= code->size)
+                assert(0);
         return (code->array)[addr];
 
 }
