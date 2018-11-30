@@ -119,6 +119,7 @@ void copy_seg_op(word a, word b, word c, UM um)
                 um->code_length = ((Segment)fast_UArray_at(um->mem->segs, 0))->
                         size;
         }
+        assert (regs[c] < um->code_length);
         um->program_counter = regs[c];
 
 }

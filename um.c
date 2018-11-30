@@ -70,7 +70,7 @@ void read_program(FILE* fp, UM um)
 
 inline word read_code(word addr, word* code, word size)
 {
-        if (addr >= size)
+        if (addr == size)
                 assert(0);
         return (code)[addr];
 
