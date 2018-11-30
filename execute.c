@@ -115,6 +115,7 @@ void copy_seg_op(word a, word b, word c, UM um)
         word * regs = um->regs;
         if (regs[b] != 0) {
                 copy_seg(regs[b], 0, um->mem);
+                um->code = ((Segment)fast_UArray_at(um->mem->segs, 0))->array;
                 um->code_length = ((Segment)fast_UArray_at(um->mem->segs, 0))->
                         size;
         }
