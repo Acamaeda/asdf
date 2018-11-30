@@ -84,7 +84,7 @@ void map_seg_op(word a, word b, word c, UM um)
         (void) a;
         word * regs = um->regs;
         regs[b] = new_seg(regs[c], um->mem);
-        um->code = fast_UArray_at(um->mem->segs, 0);
+        um->code = ((Segment)fast_UArray_at(um->mem->segs, 0))->array;
 }
 
 void unmap_seg_op(word a, word b, word c, UM um)
@@ -115,6 +115,8 @@ void copy_seg_op(word a, word b, word c, UM um)
         word * regs = um->regs;
         if (regs[b] != 0) {
                 copy_seg(regs[b], 0, um->mem);
+                um->code_length = ((Segment)fast_UArray_at(um->mem->segs, 0))->
+                        size;
         }
         um->program_counter = regs[c];
 

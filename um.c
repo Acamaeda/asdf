@@ -64,14 +64,15 @@ void read_program(FILE* fp, UM um)
 
                 write_memory(0, i, instr, um->mem);
         }
-        um->code = fast_UArray_at(um->mem->segs, 0);
+        um->code = ((Segment)fast_UArray_at(um->mem->segs, 0))->array;
+        um->code_length = fsize;
 }
 
-inline word read_code(word addr, Segment code)
+inline word read_code(word addr, word* code, word size)
 {
-        if (addr >= code->size)
+        if (addr >= size)
                 assert(0);
-        return (code->array)[addr];
+        return (code)[addr];
 
 }
 
@@ -80,7 +81,8 @@ void run_prog(UM um)
 /* Main loop, ends with halt command */
         while (1) {
 
-                word instr = read_code(um->program_counter, um->code);
+                word instr = read_code(um->program_counter, um->code,
+                                       um->code_length);
 
                 um->program_counter++;
                 interpret(instr, um);

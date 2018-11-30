@@ -17,7 +17,8 @@ typedef struct UM{
         Memory mem;
         word *regs;
         word program_counter;
-        Segment code;
+        word * code;
+        word code_length;
 }*UM;
 
 UM new_UM();
