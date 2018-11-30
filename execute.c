@@ -84,7 +84,7 @@ void map_seg_op(word a, word b, word c, UM um)
         (void) a;
         word * regs = um->regs;
         regs[b] = new_seg(regs[c], um->mem);
-        um->code = UArray_at(um->mem->segs, 0);
+        um->code = fast_UArray_at(um->mem->segs, 0);
 }
 
 void unmap_seg_op(word a, word b, word c, UM um)

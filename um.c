@@ -64,7 +64,7 @@ void read_program(FILE* fp, UM um)
 
                 write_memory(0, i, instr, um->mem);
         }
-        um->code = UArray_at(um->mem->segs, 0);
+        um->code = fast_UArray_at(um->mem->segs, 0);
 }
 
 inline word read_code(word addr, Segment code)
