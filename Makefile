@@ -20,7 +20,7 @@ IFLAGS = -I/comp/40/include -I/usr/sup/cii40/include/cii
 # to use the GNU 99 standard to get the right items in time.h for the
 # the timing support to compile.
 # 
-CFLAGS = -g -Ofast -std=gnu99 -Wall -Wextra -Werror -Wfatal-errors -pedantic $(IFLAGS)
+CFLAGS = -g -O2 -std=gnu99 -Wall -Wextra -Werror -Wfatal-errors -pedantic $(IFLAGS)
 
 # Linking flags
 # Set debugging information and update linking path
