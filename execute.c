@@ -33,16 +33,16 @@ void move_op(word a, word b, word c, UM um)
         }
 }
 
-void seg_load_op(word a, word b, word c, UM ump)
+void seg_load_op(word a, word b, word c, UM um)
 {
-        struct UM um = *ump;
-        um.regs[a] = read_memory(um.regs[b], um.regs[c], um.mem);
+        word * regs = um->regs;
+        regs[a] = read_memory(regs[b], regs[c], um->mem);
 }
 
-void seg_store_op(word a, word b, word c, UM ump)
+void seg_store_op(word a, word b, word c, UM um)
 {
-        struct UM um = *ump;
-        write_memory(um.regs[a], um.regs[b], um.regs[c], um.mem);
+        word * regs = um->regs;
+        write_memory(regs[a], regs[b], regs[c], um->mem);
 }
 
 void add_op(word a, word b, word c, UM um)
@@ -79,20 +79,19 @@ void halt_op(word a, word b, word c, UM um)
         exit(0);
 }
 
-void map_seg_op(word a, word b, word c, UM ump)
+void map_seg_op(word a, word b, word c, UM um)
 {
         (void) a;
-        struct UM um = *ump;
-        um.regs[b] = new_seg(um.regs[c], um.mem);
-        ump->code = UArray_at(um.mem->segs, 0);
+        word * regs = um->regs;
+        regs[b] = new_seg(regs[c], um->mem);
+        um->code = UArray_at(um->mem->segs, 0);
 }
 
-void unmap_seg_op(word a, word b, word c, UM ump)
+void unmap_seg_op(word a, word b, word c, UM um)
 {
         (void) a;
         (void) b;
-        struct UM um = *ump;
-        free_seg(um.regs[c], um.mem);
+        free_seg(um->regs[c], um->mem);
 }
 
 void output_op(word a, word b, word c, UM um)
@@ -110,14 +109,14 @@ void input_op(word a, word b, word c, UM um)
         um->regs[c] = getc(stdin);
 }
 
-void copy_seg_op(word a, word b, word c, UM ump)
+void copy_seg_op(word a, word b, word c, UM um)
 {
         (void) a;
-        struct UM um = *ump;
-        if (um.regs[b] != 0) {
-                copy_seg(um.regs[b], 0, um.mem);
+        word * regs = um->regs;
+        if (regs[b] != 0) {
+                copy_seg(regs[b], 0, um->mem);
         }
-        ump->program_counter = um.regs[c];
+        um->program_counter = regs[c];
 
 }
 
